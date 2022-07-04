@@ -13,22 +13,24 @@ public class Persoon {
     public static final int MAANDEN_PER_JAAR = 12;
     private static final double GRENSWAARDE_BONUS = 4500.00;
 
-    public static int aantalPersonen = 0;
+    private static int aantalPersonen = 0;
 
     private int personeelsNummer;
     private String naam;
     private String woonplaats;
     private double maandSalaris;
+    private Afdeling afdeling;
 
-    public Persoon(String naam, String woonplaats, double maandSalaris) {
+    public Persoon(String naam, String woonplaats, double maandSalaris, Afdeling afdeling) {
         this.naam = naam;
         this.woonplaats = woonplaats;
         this.setMaandSalaris(maandSalaris);
+        this.afdeling = afdeling;
         this.personeelsNummer = ++aantalPersonen;
     }
 
     public Persoon(String naam) {
-        this(naam, DEFAULT_WOONPLAATS, DEFAULT_MAAND_SALARIS);
+        this(naam, DEFAULT_WOONPLAATS, DEFAULT_MAAND_SALARIS, new Afdeling());
     }
 
     public Persoon() {
@@ -41,6 +43,10 @@ public class Persoon {
 
     public boolean heeftRechtOpBonus() {
         return maandSalaris >= GRENSWAARDE_BONUS;
+    }
+
+    public static int getAantalPersonen() {
+        return aantalPersonen;
     }
 
     public int getPersoneelsNummer() {
@@ -77,5 +83,9 @@ public class Persoon {
             maandSalaris = DEFAULT_MAAND_SALARIS;
         }
         this.maandSalaris = maandSalaris;
+    }
+
+    public Afdeling getAfdeling() {
+        return afdeling;
     }
 }
