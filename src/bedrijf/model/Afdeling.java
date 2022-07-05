@@ -21,6 +21,11 @@ public class Afdeling {
         this(DEFAULT_NAAM, DEFAULT_PLAATS);
     }
 
+    @Override
+    public String toString() {
+        return String.format("afdeling %s te %s", this.afdelingsNaam, this.afdelingsPlaats);
+    }
+
     public String getAfdelingsNaam() {
         return afdelingsNaam;
     }
