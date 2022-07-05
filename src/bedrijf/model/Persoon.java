@@ -5,7 +5,7 @@ package bedrijf.model;
  * <p>
  * Persoon die actief is binnen ons bedrijf
  */
-public class Persoon {
+public abstract class Persoon {
     private static final String DEFAULT_WOONPLAATS = "Onbekend";
     private static final String DEFAULT_NAAM = "Onbekend";
 
@@ -31,9 +31,7 @@ public class Persoon {
         this(DEFAULT_NAAM);
     }
 
-    public double berekenJaarInkomen() {
-        return 0;
-    }
+    public abstract double berekenJaarInkomen();
 
     @Override
     public String toString() {
