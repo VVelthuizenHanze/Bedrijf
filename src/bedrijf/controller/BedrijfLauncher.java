@@ -6,6 +6,9 @@ import bedrijf.model.Persoon;
 import bedrijf.model.Werknemer;
 import bedrijf.model.Zzper;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author Vincent Velthuizen <v.r.velthuizen@pl.hanze.nl>
  * <p>
@@ -21,29 +24,28 @@ public class BedrijfLauncher {
                 new Afdeling("Documentatie", "Gouda")
         };
 
-        Werknemer baas = new Werknemer("Mark", "Den Haag", afdelingen[2], 10000);
-        Werknemer medewerker = new Werknemer("Caroline", "Delft", afdelingen[1], 4000);
-        Zzper assistent = new Zzper("Klaas", "Diemen", afdelingen[3], 50);
-        Zzper projectleider = new Zzper("Ronald", "Zaandam", afdelingen[0], 80.00);
+        ArrayList<Persoon> personen = new ArrayList<>();
+        personen.add(new Werknemer("Mark", "Den Haag", afdelingen[2], 10000));
+        personen.add(new Werknemer("Angelique", "Rotterdam", afdelingen[2],
+                5000));
+        personen.add(new Werknemer("Caroline", "Delft", afdelingen[1], 4000));
+        personen.add(new Zzper("Klaas", "Diemen", afdelingen[3], 50.00));
+        personen.add(new Zzper("Ronald", "Zaandam", afdelingen[0], 80.00));
+        personen.add(new Zzper("Jannie", "Utrecht", afdelingen[0], 60.00));
+        personen.add(new Zzper("Anne", "Zwolle", afdelingen[0], 40.00));
 
-        assistent.huurIn(160);
-        projectleider.huurIn(320);
+        for (Persoon persoon : personen) {
+            if (persoon instanceof Zzper) {
+                ((Zzper) persoon).huurIn(320);
+            }
+        }
 
-        Persoon[] personen = {baas, medewerker, assistent, projectleider};
-
-        System.out.printf("Het aantal personen in het bedrijf is %d\n", Persoon.getAantalPersonen());
-        System.out.println(baas);
-        System.out.println(medewerker);
-        System.out.println(assistent);
-        System.out.println();
-
-        for (int persoon = 0; persoon < personen.length; persoon++) {
-            toonJaarInkomen(personen[persoon]);
-            System.out.println();
+        for (Persoon persoon : personen) {
+            toonJaarInkomen(persoon);
         }
     }
 
     public static void toonJaarInkomen(Persoon persoon) {
-        System.out.printf("%s verdient %.2f per jaar", persoon.getNaam(), persoon.berekenJaarInkomen());
+        System.out.printf("%s verdient %.2f per jaar\n", persoon.getNaam(), persoon.berekenJaarInkomen());
     }
 }
