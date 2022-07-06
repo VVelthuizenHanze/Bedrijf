@@ -5,7 +5,7 @@ package bedrijf.model;
  * <p>
  * Een extern ingehuurde kracht binnen ons bedrijf
  */
-public class Zzper extends Persoon {
+public class Zzper extends Persoon implements Oproepbaar {
     private double uurtarief;
     private int urenGewerkt;
 
@@ -15,6 +15,7 @@ public class Zzper extends Persoon {
         this.urenGewerkt = 0;
     }
 
+    @Override
     public void huurIn(int uren) {
         this.urenGewerkt += uren;
     }
