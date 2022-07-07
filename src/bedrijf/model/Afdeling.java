@@ -5,7 +5,7 @@ package bedrijf.model;
  * <p>
  * Personen binnen het bedrijf werken voor een afdeling.
  */
-public class Afdeling {
+public class Afdeling implements Comparable<Afdeling> {
     private static final String DEFAULT_PLAATS = "Onbekend";
     private static final String DEFAULT_NAAM = "Onbekend";
 
@@ -24,6 +24,11 @@ public class Afdeling {
     @Override
     public String toString() {
         return String.format("afdeling %s te %s", this.afdelingsNaam, this.afdelingsPlaats);
+    }
+
+    @Override
+    public int compareTo(Afdeling o) {
+        return afdelingsNaam.compareTo(o.afdelingsNaam);
     }
 
     public String getAfdelingsNaam() {
