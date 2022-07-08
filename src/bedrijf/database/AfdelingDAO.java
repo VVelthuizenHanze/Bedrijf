@@ -12,22 +12,20 @@ import java.util.ArrayList;
  * <p>
  * Haal afdelingen uit de database en sla ze daar weer in op
  */
-public class AfdelingDAO {
-
-    private DBaccess dBaccess;
+public class AfdelingDAO extends AbstractDAO {
 
     public AfdelingDAO(DBaccess dBaccess) {
-        this.dBaccess = dBaccess;
+        super(dBaccess);
     }
 
     public void slaAfdelingOp(Afdeling afdeling) {
         String sql = "INSERT INTO afdeling (afdelingsnaam, afdelingsplaats) VALUES (?, ?);";
 
         try {
-            PreparedStatement preparedStatement = dBaccess.getConnection().prepareStatement(sql);
+            setupPreparedStatement(sql);
             preparedStatement.setString(1, afdeling.getAfdelingsNaam());
             preparedStatement.setString(2, afdeling.getAfdelingsPlaats());
-            preparedStatement.executeUpdate();
+            executeManipulateStatement();
         } catch (SQLException sqlException) {
             sqlFoutMelding(sqlException);
         }
@@ -38,8 +36,8 @@ public class AfdelingDAO {
         String sql = "SELECT afdelingsnaam, afdelingsplaats FROM afdeling;";
 
         try {
-            PreparedStatement preparedStatement = dBaccess.getConnection().prepareStatement(sql);
-            ResultSet resultSet = preparedStatement.executeQuery();
+            setupPreparedStatement(sql);
+            ResultSet resultSet = executeSelectStatement();
             while (resultSet.next()) {
                 afdelingen.add(getAfdelingFromResultSet(resultSet));
             }
@@ -55,9 +53,9 @@ public class AfdelingDAO {
         String sql = "SELECT afdelingsnaam, afdelingsplaats FROM afdeling WHERE afdelingsplaats = ?;";
 
         try {
-            PreparedStatement preparedStatement = dBaccess.getConnection().prepareStatement(sql);
+            setupPreparedStatement(sql);
             preparedStatement.setString(1, afdelingsPlaats);
-            ResultSet resultSet = preparedStatement.executeQuery();
+            ResultSet resultSet = executeSelectStatement();
             while (resultSet.next()) {
                 afdelingen.add(getAfdelingFromResultSet(resultSet));
             }
@@ -66,10 +64,6 @@ public class AfdelingDAO {
         }
 
         return afdelingen;
-    }
-
-    private void sqlFoutMelding(SQLException sqlException) {
-        System.err.println("SQL heeft de volgende melding gegeven: " + sqlException.getMessage());
     }
 
     private Afdeling getAfdelingFromResultSet(ResultSet resultSet) throws SQLException {

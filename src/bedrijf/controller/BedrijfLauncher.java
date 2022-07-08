@@ -3,6 +3,7 @@ package bedrijf.controller;
 
 import bedrijf.database.AfdelingDAO;
 import bedrijf.database.DBaccess;
+import bedrijf.database.WerknemerDAO;
 import bedrijf.model.*;
 
 import java.io.File;
@@ -22,12 +23,16 @@ public class BedrijfLauncher {
         AfdelingDAO afdelingDAO = new AfdelingDAO(dBaccess);
 
         dBaccess.openConnection();
-        ArrayList<Afdeling> afdelingen = afdelingDAO.geefAfdelingenMetPlaats("Hilversum");
+
+        WerknemerDAO werknemerDAO = new WerknemerDAO(dBaccess);
+        werknemerDAO.slaWerknemerOp(new Werknemer(
+                "Lodewijk",
+                "Zaandam",
+                new Afdeling("Support", "Amsterdam"),
+                2500));
+
         dBaccess.closeConnection();
 
-        for (Afdeling afdeling : afdelingen) {
-            System.out.println(afdeling);
-        };
     }
 
     private static ArrayList<Persoon> leesPersonenIn(ArrayList<Afdeling> afdelingen) {
