@@ -1,6 +1,8 @@
 package bedrijf.controller;
 
 
+import bedrijf.database.AfdelingDAO;
+import bedrijf.database.DBaccess;
 import bedrijf.model.*;
 
 import java.io.File;
@@ -16,26 +18,16 @@ import java.util.*;
 public class BedrijfLauncher {
 
     public static void main(String[] args) {
-        ArrayList<Afdeling> afdelingen = leesAfdelingenIn();
-        ArrayList<Persoon> personen = leesPersonenIn(afdelingen);
+        DBaccess dBaccess = new DBaccess("Bedrijf", "userBedrijf", "userBedrijfPW");
+        AfdelingDAO afdelingDAO = new AfdelingDAO(dBaccess);
 
-        Collections.sort(afdelingen);
-        Collections.sort(personen);
+        dBaccess.openConnection();
+        ArrayList<Afdeling> afdelingen = afdelingDAO.geefAfdelingenMetPlaats("Hilversum");
+        dBaccess.closeConnection();
 
-        File uitvoerBestand = new File("resources/personenPerAfdeling.txt");
-        try (PrintWriter printWriter = new PrintWriter(uitvoerBestand)) {
-            for (Afdeling afdeling : afdelingen) {
-                printWriter.printf("Afdeling: %s\n", afdeling.getAfdelingsNaam());
-                for (Persoon persoon : personen) {
-                    if (afdeling == persoon.getAfdeling()) {
-                        printWriter.println("-- " + persoon);
-                    }
-                }
-                printWriter.println();
-            }
-        } catch (FileNotFoundException fileNotFoundException) {
-            System.out.println("Het is niet gelukt het uitvoerbestand te maken/openen");
-        }
+        for (Afdeling afdeling : afdelingen) {
+            System.out.println(afdeling);
+        };
     }
 
     private static ArrayList<Persoon> leesPersonenIn(ArrayList<Afdeling> afdelingen) {
